@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>城阳区公安分局｜平安城阳</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      background: #f4f6f9;
+      color: #101828;
+      line-height: 1.65;
+    }
+
+    :root {
+      --blue: #063b7a;
+      --blue2: #0b5cad;
+      --red: #c1121f;
+      --gold: #d7a43b;
+      --dark: #06182f;
+      --muted: #667085;
+      --card: #ffffff;
+    }
+
+    .topbar {
+      background: #06182f;
+      color: #cbd5e1;
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    header {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .emblem {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #0b5cad, #06182f);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(6, 24, 47, 0.25);
+      font-weight: 900;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emblem::after {
+      content: "★";
+      color: var(--gold);
+      font-size: 24px;
+    }
+
+    .brand h1 {
+      font-size: 22px;
+      letter-spacing: 1px;
+      font-weight: 900;
+      color: #06182f;
+    }
+
+    .brand p {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    nav a {
+      color: #1f2937;
+      text-decoration: none;
+    }
+
+    nav a:hover { color: var(--blue2); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      border: 0;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 12px 22px;
+      font-weight: 800;
+      transition: .25s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue2), var(--blue));
+      color: white;
+      box-shadow: 0 15px 32px rgba(11, 92, 173, .28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .btn-light {
+      background: rgba(255,255,255,0.9);
+      color: var(--blue);
+      border: 1px solid rgba(255,255,255,0.55);
+    }
+
+    .hero {
+      min-height: 680px;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(3, 18, 38, 0.95) 0%, rgba(3, 18, 38, 0.82) 42%, rgba(3, 18, 38, 0.25) 78%),
+        url("https://commons.wikimedia.org/wiki/Special:FilePath/SAIC-Volkswagen%20Passat%20Lingyu%20Police%20car%20in%20China.jpg") center/cover no-repeat;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 110px 0 80px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: #dbeafe;
+      font-size: 14px;
+      margin-bottom: 26px;
+    }
+
+    .hero h2 {
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      font-weight: 950;
+      margin-bottom: 26px;
+    }
+
+    .hero h2 span { color: #73b7ff; }
+
+    .hero-text {
+      max-width: 680px;
+      color: #dbeafe;
+      font-size: 19px;
+      margin-bottom: 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 44px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: 720px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 12px;
+      padding: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      color: white;
+    }
+
+    .stat span {
+      color: #cbd5e1;
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 86px 0;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 28px;
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      color: var(--blue2);
+      font-weight: 900;
+      letter-spacing: 3px;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.15;
+      color: #06182f;
+      letter-spacing: -1px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 460px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid rgba(15, 23, 42, .08);
+      padding: 26px;
+      box-shadow: 0 16px 45px rgba(15, 23, 42, .06);
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 55px rgba(15, 23, 42, .12);
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #eaf3ff;
+      color: var(--blue2);
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      color: #06182f;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #667085;
+      font-size: 15px;
+    }
+
+    .command {
+      background: #06182f;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .command::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(11, 92, 173, .55), transparent 35%),
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: auto, 46px 46px, 46px 46px;
+    }
+
+    .command-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .command h2 {
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .command p { color: #cbd5e1; font-size: 17px; }
+
+    .panel {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      padding: 26px;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      gap: 18px;
+    }
+
+    .panel-row:last-child { border-bottom: none; }
+
+    .panel-row b { color: white; }
+    .panel-row span { color: #cbd5e1; }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .photo {
+      min-height: 360px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #ddd;
+      position: relative;
+      box-shadow: 0 20px 55px rgba(15, 23, 42, .14);
+    }
+
+    .photo.small { min-height: 360px; }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .photo-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, rgba(6,24,47,.92), rgba(11,92,173,.72));
+      backdrop-filter: blur(8px);
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .service {
+      background: white;
+      border-radius: 16px;
+      border-left: 5px solid var(--blue2);
+      padding: 24px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, .06);
+    }
+
+    .service h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #06182f;
+    }
+
+    .notice {
+      background: linear-gradient(135deg, #fff, #eef6ff);
+      border-top: 1px solid rgba(15,23,42,.08);
+      border-bottom: 1px solid rgba(15,23,42,.08);
+    }
+
+    .notice-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .notice-box {
+      background: #06182f;
+      color: white;
+      border-radius: 24px;
+      padding: 34px;
+      box-shadow: 0 20px 50px rgba(6,24,47,.18);
+    }
+
+    .notice-box strong {
+      display: block;
+      font-size: 56px;
+      line-height: 1;
+      color: #73b7ff;
+      margin-bottom: 10px;
+    }
+
+    .news {
+      display: grid;
+      gap: 14px;
+    }
+
+    .news-item {
+      background: white;
+      border: 1px solid rgba(15,23,42,.08);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .news-item b { color: #06182f; }
+    .news-item span { color: #98a2b3; white-space: nowrap; }
+
+    footer {
+      background: #06182f;
+      color: #cbd5e1;
+      padding: 42px 0;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .disclaimer {
+      margin-top: 22px;
+      color: #94a3b8;
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      padding-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hero { min-height: auto; }
+      .stats, .cards, .service-list, .notice-grid, .command-grid, .photo-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        display: block;
+      }
+      .section-title p {
+        margin-top: 12px;
+      }
+      .footer-grid {
+        display: block;
+      }
+      .hero-content {
+        padding: 80px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <div>青岛市公安局城阳分局 · 平安城阳综合展示页</div>
+      <div>报警电话：110　政务服务：以官方发布为准</div>
+    </div>
+  </div>
+
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="emblem"></div>
+        <div>
+          <h1>城阳区公安分局</h1>
+          <p>CHENGYANG PUBLIC SECURITY</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#overview">分局概况</a>
+        <a href="#services">便民服务</a>
+        <a href="#policing">警务风采</a>
+        <a href="#notice">安全提示</a>
+      </nav>
+
+      <a class="btn btn-primary" href="#notice">进入平安城阳</a>
+    </div>
+  </header>
+
+  <section class="hero" id="overview">
+    <div class="wrap hero-content">
+      <div class="badge">● 城阳公安 · 守护城市运行秩序</div>
+      <h2>忠诚担当，<br><span>守护平安城阳</span></h2>
+      <p class="hero-text">
+        围绕社会治安防控、社区警务、交通秩序维护、反诈宣传和便民服务，
+        打造更加清晰、高效、可信的公安形象展示窗口。
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#services">查看便民服务</a>
+        <a class="btn btn-light" href="#policing">浏览警务风采</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><strong>110</strong><span>紧急报警电话</span></div>
+        <div class="stat"><strong>24h</strong><span>重点区域巡防联动</span></div>
+        <div class="stat"><strong>网格化</strong><span>社区警务服务模式</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <div class="eyebrow">PUBLIC SERVICE</div>
+          <h2>便民服务与警务事项</h2>
+        </div>
+        <p>页面采用政务展示风格设计，突出服务入口、咨询提醒与基层治理内容，适合做项目展示或前端练习。</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">🏠</div>
+          <h3>户政咨询</h3>
+          <p>户籍、居住证、身份证相关事项，可通过官方渠道了解办理材料与流程。</p>
+        </div>
+        <div class="card">
+          <div class="icon">🛡️</div>
+          <h3>治安防控</h3>
+          <p>围绕商圈、学校、社区和重点路段开展巡逻防控与隐患排查。</p>
+        </div>
+        <div class="card">
+          <div class="icon">📱</div>
+          <h3>反诈宣传</h3>
+          <p>聚焦刷单返利、冒充客服、虚假投资等高发骗局，提升居民识骗防骗能力。</p>
+        </div>
+        <div class="card">
+          <div class="icon">🚓</div>
+          <h3>巡逻处置</h3>
+          <p>强化接处警响应、街面巡控和突发情况处置，维护公共安全秩序。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section command">
+    <div class="wrap command-grid">
+      <div>
+        <div class="eyebrow" style="color:#73b7ff;">COMMAND CENTER</div>
+        <h2>以数据化、网格化、实战化提升基层警务效能</h2>
+        <p>
+          通过巡防联动、重点区域管理、社区走访和安全宣传等方式，
+          提升群众安全感与公共服务体验。
+        </p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-row"><b>重点任务</b><span>社会面巡防 / 隐患排查</span></div>
+        <div class="panel-row"><b>服务对象</b><span>居民 / 企业 / 学校 / 商圈</span></div>
+        <div class="panel-row"><b>宣传方向</b><span>反诈 / 消防 / 交通 / 治安</span></div>
+        <div class="panel-row"><b>工作理念</b><span>快速响应 · 主动服务 · 平安共建</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="policing">
+    <div class="wrap">
+      <div class="section-title">
+        <div>
+          <div class="eyebrow">POLICING IMAGE</div>
+          <h2>警务风采与车辆展示</h2>
+        </div>
+        <p>下方使用真实中国公安警车照片作为视觉参考，增强页面真实感和政务宣传氛围。</p>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/SAIC-Volkswagen%20Passat%20Lingyu%20Police%20car%20in%20China.jpg" alt="中国公安警车照片" />
+          <div class="photo-caption">
+            <strong>公安警车形象展示</strong>
+            <p>真实中国公安警车照片，用于页面视觉展示。</p>
+          </div>
+        </div>
+
+        <div class="photo small">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/China%20patrol%20car.jpg" alt="中国公安巡逻车照片" />
+          <div class="photo-caption">
+            <strong>巡逻车辆与街面防控</strong>
+            <p>突出基层巡防、快速响应与城市安全守护。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section notice" id="notice">
+    <div class="wrap notice-grid">
+      <div class="notice-box">
+        <strong>110</strong>
+        <h2>紧急情况请立即报警</h2>
+        <p>涉及人身安全、正在发生的违法犯罪、重大险情等紧急情况，请第一时间拨打 110。</p>
+      </div>
+
+      <div class="news">
+        <div class="news-item">
+          <b>反诈提醒：凡是要求转账到“安全账户”的，基本都是诈骗。</b>
+          <span>安全提示</span>
+        </div>
+        <div class="news-item">
+          <b>社区提示：夜间出行注意保管随身财物，发现可疑情况及时报警。</b>
+          <span>社区警务</span>
+        </div>
+        <div class="news-item">
+          <b>企业提示：加强内部消防、用电和出入口安全管理。</b>
+          <span>企业服务</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap service-list">
+      <div class="service">
+        <h3>政务公开</h3>
+        <p>展示公安工作动态、便民信息、安全提示与服务指南。</p>
+      </div>
+      <div class="service">
+        <h3>警民互动</h3>
+        <p>强化社区联系，推动问题发现、反馈与协同治理。</p>
+      </div>
+      <div class="service">
+        <h3>平安建设</h3>
+        <p>围绕重点场所、重点人群、重点时段开展综合治理。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h3>城阳区公安分局</h3>
+          <p>平安城阳 · 服务群众 · 守护城市</p>
+        </div>
+        <div>
+          <p>报警电话：110</p>
+          <p>页面类型：前端静态展示网页</p>
+        </div>
+      </div>
+      <div class="disclaimer">
+        说明：本页面为学习与演示用途的非官方网站，不代表任何政府机关正式发布内容。具体政务信息、机构地址、联系方式与业务流程请以官方渠道为准。
+        警车图片来自公开图库/维基共享资源的中国公安车辆照片。
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
