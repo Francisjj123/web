@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biohazard Survival File</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #f4f4f5;
+      background: #09090b;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(127, 29, 29, 0.35), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(63, 63, 70, 0.45), transparent 30%),
+        linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.92));
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      opacity: 0.07;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px);
+      background-size: 42px 42px;
+      z-index: -1;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 26px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: rgba(185, 28, 28, 0.85);
+      border: 1px solid rgba(248, 113, 113, 0.45);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 16px 35px rgba(69, 10, 10, 0.9);
+      font-size: 22px;
+    }
+
+    .brand-title {
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      font-size: 14px;
+    }
+
+    .brand-subtitle {
+      margin-top: 3px;
+      font-size: 10px;
+      color: #a1a1aa;
+      letter-spacing: 0.3em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: #d4d4d8;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      color: #f87171;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 18px;
+      padding: 13px 22px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .btn-red {
+      background: #b91c1c;
+      color: white;
+      box-shadow: 0 20px 40px rgba(69, 10, 10, 0.8);
+    }
+
+    .btn-red:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: rgba(24, 24, 27, 0.45);
+      color: white;
+      border: 1px solid #3f3f46;
+    }
+
+    .btn-outline:hover {
+      background: #27272a;
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      padding: 70px 0 110px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(69, 10, 10, 0.32);
+      color: #fca5a5;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 12px;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      font-weight: 950;
+    }
+
+    h1 span {
+      color: #dc2626;
+    }
+
+    .hero p {
+      margin-top: 28px;
+      color: #d4d4d8;
+      max-width: 580px;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .file-card-wrap {
+      position: relative;
+      animation: floatIn 0.9s ease both;
+    }
+
+    .file-card-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -24px;
+      border-radius: 36px;
+      background: rgba(185, 28, 28, 0.2);
+      filter: blur(34px);
+      z-index: -1;
+    }
+
+    .file-card {
+      border-radius: 34px;
+      border: 1px solid #27272a;
+      background: rgba(24, 24, 27, 0.72);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .file-screen {
+      min-height: 460px;
+      border-radius: 26px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #27272a, #09090b, #450a0a);
+    }
+
+    .file-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.2;
+      background: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.35), transparent 18%);
+    }
+
+    .screen-top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #a1a1aa;
+    }
+
+    .skull {
+      margin-top: 95px;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      border: 4px solid rgba(220, 38, 38, 0.85);
+      background: rgba(0,0,0,0.4);
+      display: grid;
+      place-items: center;
+      font-size: 58px;
+      box-shadow: 0 20px 45px rgba(69,10,10,0.95);
+      position: relative;
+      z-index: 2;
+    }
+
+    .file-screen h2 {
+      margin-top: 30px;
+      font-size: 42px;
+      font-weight: 950;
+      position: relative;
+      z-index: 2;
+    }
+
+    .file-screen p {
+      margin-top: 12px;
+      color: #d4d4d8;
+      line-height: 1.6;
+      max-width: 360px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status-row {
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      bottom: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .status-row div {
+      border: 1px solid #3f3f46;
+      background: rgba(0,0,0,0.35);
+      border-radius: 18px;
+      padding: 14px;
+      text-align: center;
+      color: #d4d4d8;
+      font-size: 12px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      color: #f87171;
+      letter-spacing: 0.35em;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 950;
+      letter-spacing: -0.04em;
+    }
+
+    .muted {
+      color: #a1a1aa;
+      line-height: 1.7;
+      max-width: 430px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      border: 1px solid #27272a;
+      background: rgba(24, 24, 27, 0.6);
+      border-radius: 28px;
+      padding: 30px;
+      min-height: 250px;
+      transition: 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      background: rgba(24, 24, 27, 0.92);
+    }
+
+    .card-icon {
+      font-size: 36px;
+      color: #ef4444;
+    }
+
+    .card h3 {
+      margin-top: 28px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .card p {
+      margin-top: 14px;
+      color: #a1a1aa;
+      line-height: 1.75;
+    }
+
+    .survivor {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .profile-box {
+      border: 1px solid #27272a;
+      background: rgba(24,24,27,0.6);
+      border-radius: 34px;
+      padding: 38px;
+    }
+
+    .profile-box p:last-child {
+      margin-top: 22px;
+      color: #a1a1aa;
+      line-height: 1.8;
+    }
+
+    .grid-small {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .mini {
+      min-height: 150px;
+      border: 1px solid #27272a;
+      background: rgba(0,0,0,0.4);
+      border-radius: 28px;
+      padding: 24px;
+      display: flex;
+      align-items: end;
+      font-size: 26px;
+      font-weight: 950;
+    }
+
+    .final {
+      border: 1px solid rgba(239,68,68,0.25);
+      background: rgba(69, 10, 10, 0.2);
+      border-radius: 34px;
+      padding: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .btn-white {
+      background: #f4f4f5;
+      color: #09090b;
+    }
+
+    .btn-white:hover {
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav, header .btn-red {
+        display: none;
+      }
+
+      .hero,
+      .survivor {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head,
+      .final {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="container">
+    <div class="brand">
+      <div class="logo">☣</div>
+      <div>
+        <div class="brand-title">BIOHAZARD</div>
+        <div class="brand-subtitle">SURVIVAL FILE</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#threats">Threats</a>
+      <a href="#survivors">Survivors</a>
+      <a href="#intel">Intel</a>
+    </nav>
+
+    <a class="btn btn-red" href="#intel">Enter The Zone</a>
+  </header>
+
+  <main>
+    <section id="overview" class="hero container">
+      <div>
+        <div class="badge">📡 Emergency Broadcast Active</div>
+        <h1>SURVIVE THE <span>OUTBREAK</span></h1>
+        <p>
+          A cinematic survival-horror landing page inspired by classic biohazard games:
+          abandoned facilities, corporate secrets, tactical rescue units, and one night that refuses to end.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-red" href="#">▶ Watch Trailer</a>
+          <a class="btn btn-outline" href="#threats">Read Incident Report →</a>
+        </div>
+      </div>
+
+      <div class="file-card-wrap">
+        <div class="file-card">
+          <div class="file-screen">
+            <div class="screen-top">
+              <span>RACCOON CITY / SECTOR 07</span>
+              <span>02:17 AM</span>
+            </div>
+            <div class="skull">☠</div>
+            <h2>CLASSIFIED FILE</h2>
+            <p>Containment failed. The city is locked down. Your mission is simple: find the truth, keep breathing.</p>
+            <div class="status-row">
+              <div>Virus</div>
+              <div>Ammo</div>
+              <div>Escape</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="threats" class="container">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">THREAT DATABASE</div>
+          <h2>Every corridor has a price.</h2>
+        </div>
+        <p class="muted">Interactive cards for monsters, weapons, and survival systems.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">⚠</div>
+          <h3>T-Virus Exposure</h3>
+          <p>Unstable mutations, sealed labs, and infection zones marked with red emergency lighting.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⌖</div>
+          <h3>Limited Resources</h3>
+          <p>Every bullet matters. Every healing item feels like a business decision.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📻</div>
+          <h3>Lost Signals</h3>
+          <p>Radio messages, locked doors, and files that turn the whole story upside down.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="survivors" class="survivor container">
+      <div class="profile-box">
+        <div class="eyebrow">SURVIVOR PROFILE</div>
+        <h2>You are not the hero. You are the last witness.</h2>
+        <p>
+          This design sells the fantasy: police files, outbreak maps, corrupted corporate systems,
+          and elegant dark UI. It feels like a premium game site instead of a normal school project.
+        </p>
+      </div>
+      <div class="grid-small">
+        <div class="mini">HP Critical</div>
+        <div class="mini">Door Locked</div>
+        <div class="mini">Key Found</div>
+        <div class="mini">Boss Incoming</div>
+      </div>
+    </section>
+
+    <section id="intel" class="container">
+      <div class="final">
+        <div>
+          <div class="eyebrow">FINAL WARNING</div>
+          <h2>The outbreak starts when you press play.</h2>
+        </div>
+        <a class="btn btn-white" href="#overview">Access Classified Demo</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
